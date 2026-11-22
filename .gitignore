@@ -221,3 +221,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Never commit scans, plans of real buildings or derived geometry
+*.ply
+*.las
+*.laz
+*.e57
+*.pcd
+*.dxf
+*.dwg
+*.npy
+*.npz
+*.csv
+*.parquet
+*.png
+!docs/demo.png
+out/
