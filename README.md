@@ -80,7 +80,7 @@ A threshold counts as visible when the isovist ray at its bearing reaches it (wi
 
 A rate is taken only between consecutive valid moments no more than 2.5 times the typical step apart, so nothing is computed across a gap.
 
-Semantic measures of the scene video, such as class shares and clutter, are not here. They belong to the compute chain of field-workbench (in preparation).
+Semantic measures of the scene video, such as class shares and clutter, are not here. They belong to the compute chain of [field-workbench](https://github.com/cambridge-cognitive-architecture/field-workbench).
 
 ### Planned
 
@@ -99,7 +99,7 @@ Units are millimetres and the 2-D fits need levelled scans. **A good residual is
 
 Five tools for field studies with wearable sensors:
 
-[field-logger](https://github.com/cambridge-cognitive-architecture/field-logger) → [wearable-pipeline](https://github.com/cambridge-cognitive-architecture/wearable-pipeline) → **spatial-twin** → field-workbench (in preparation) → [egoanon](https://github.com/cambridge-cognitive-architecture/egoanon)
+[field-logger](https://github.com/cambridge-cognitive-architecture/field-logger) → [wearable-pipeline](https://github.com/cambridge-cognitive-architecture/wearable-pipeline) → **spatial-twin** → [field-workbench](https://github.com/cambridge-cognitive-architecture/field-workbench) → [egoanon](https://github.com/cambridge-cognitive-architecture/egoanon)
 
 <!-- Overview diagram goes here: docs/toolkit.png -->
 
@@ -108,7 +108,7 @@ Five tools for field studies with wearable sensors:
 | [field-logger](https://github.com/cambridge-cognitive-architecture/field-logger) | tablet app: location by threshold crossings, tasks, interruptions and ratings, on one clock |
 | [wearable-pipeline](https://github.com/cambridge-cognitive-architecture/wearable-pipeline) | eye tracking, ECG and the field log on one clock; pupil and HRV preprocessing; quality control |
 | **spatial-twin** (this repository) | LiDAR scans against the floor plan: registration, isovists, walkable space, objects |
-| field-workbench (in preparation) | one local app from project set-up through coding and compute to the master table |
+| [field-workbench](https://github.com/cambridge-cognitive-architecture/field-workbench) | one local app for each session: export, ingest, backup, QC, sync, crossing coding, preprocessing to a master table |
 | [egoanon](https://github.com/cambridge-cognitive-architecture/egoanon) | anonymisation of the head-mounted scene video |
 
 ## Licence and credit
