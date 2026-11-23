@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spatial-twin"
+version = "0.1.0"
+description = "LiDAR scans vs floor plan: registration, visibility (isovists), walkable space and objects by shape."
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Salome Egli" }]
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26", "scipy>=1.11", "matplotlib>=3.8", "opencv-python-headless>=4.8"]
+
+[project.optional-dependencies]
+scans = ["open3d>=0.19"]
+test = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+include = ["spatial_twin*"]
