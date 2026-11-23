@@ -68,7 +68,7 @@ A threshold counts as visible when the isovist ray at its bearing reaches it (wi
 
 `zone_graph` gives plain adjacency (zones that touch). It links two zones drawn flush either side of a solid wall, and `permeable_graph` does not. `permeable_graph` gives a zone drawn in separate pieces one node per piece, so no shortest path can teleport between them.
 
-**Space syntax** (`syntax.py`) on the zone graph: connectivity, mean depth, integration (1/RRA, normalised by the diamond value), local integration at radius 3, choice (betweenness), control, and the system's intelligibility (correlation of connectivity with integration).
+**Space syntax** (`syntax.py`) on the zone graph: connectivity, mean depth, RA and RRA (normalised by the diamond value), integration (1/RRA; undefined, not infinite, for a zone one step from every other, where RRA = 0), local integration at radius 3, choice (betweenness), control, and the system's intelligibility (correlation of connectivity with integration).
 
 **Flow** (`flow.py`): how the view changes along a track.
 

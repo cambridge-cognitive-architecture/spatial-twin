@@ -6,8 +6,11 @@ Standard definitions (Hillier & Hanson 1984) applied to zones as nodes:
     mean depth       mean shortest-path length to every other reachable zone
     RA               2 (MD - 1) / (n - 2)
     RRA              RA / D_n, normalised by the diamond value so systems of
-                     different size compare
-    integration      1 / RRA; higher is more integrated
+                     different size compare; lower is more integrated
+    integration      1 / RRA (HH); higher is more integrated. Undefined, NaN,
+                     where RA = 0: a zone one step from every other has no
+                     finite value, as in depthmapX. RA and RRA stay finite and
+                     keep the ordering, so they are reported beside it.
     integration_local  the same within radius 3
     choice           betweenness (Brandes, unweighted)
     control          sum over neighbours of 1 / their degree
@@ -64,7 +67,7 @@ def space_syntax(adj: dict[str, list[str]], local_radius: int = LOCAL_RADIUS) ->
         md = float(near.sum() / (k - 1))
         ra = 2.0 * (md - 1.0) / max(k - 2, 1)
         d = diamond(k)
-        local[v] = float(np.inf) if ra <= 0 else float(1.0 / (ra / d)) if d > 0 else np.nan
+        local[v] = float(1.0 / (ra / d)) if ra > 0 and d > 0 else np.nan     # undefined where RA = 0
 
     bet = {v: 0.0 for v in nodes}
     for s in nodes:
@@ -102,9 +105,12 @@ def space_syntax(adj: dict[str, list[str]], local_radius: int = LOCAL_RADIUS) ->
         out[v] = {
             "connectivity": float(len(adj[v])),
             "mean_depth": md,
-            # RA == 0: one step from every other zone, maximally integrated.
-            # inf keeps that ordering; NaN would drop it from every comparison.
-            "integration": float(1.0 / rra) if rra and rra > 0 else (np.inf if rra == 0 else np.nan),
+            "ra": ra,
+            "rra": float(rra),
+            # RA == 0: one step from every other zone. 1/RRA has no finite value there, so it is
+            # undefined rather than infinite; RRA = 0 still ranks the zone as the most integrated.
+            "integration": float(1.0 / rra) if rra > 0 else np.nan,
+            "integration_undefined": bool(rra == 0),
             "integration_local": local[v],
             "choice": float(bet[v]),
             "control": float(sum(1.0 / max(len(adj[w]), 1) for w in adj[v])),

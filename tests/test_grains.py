@@ -95,10 +95,22 @@ def test_star_graph():
     s = space_syntax(adj)
     hub, leaf = s["zones"]["hub"], s["zones"]["a"]
     assert hub["connectivity"] == 4 and hub["mean_depth"] == 1
-    assert hub["integration"] == np.inf             # one step from everything
+    assert np.isnan(hub["integration"]) and hub["integration_undefined"]   # one step from everything
+    assert hub["rra"] == 0 and all(z["rra"] > 0 for k, z in s["zones"].items() if z is not hub)
     assert leaf["mean_depth"] == pytest.approx((1 + 2 * 3) / 4)
     assert hub["choice"] == 6 and leaf["choice"] == 0   # all 6 leaf pairs pass the hub
     assert hub["control"] == 4 and leaf["control"] == pytest.approx(0.25)
+
+
+def test_no_syntax_value_is_ever_infinite(zm):
+    graphs = [{"hub": ["a", "b", "c"], "a": ["hub"], "b": ["hub"], "c": ["hub"]},
+              {"a": ["b", "c"], "b": ["a", "c"], "c": ["a", "b"]},           # complete: RA = 0 everywhere
+              permeable_graph(zm, WALLS, DOORS)["adjacency"]]
+    for adj in graphs:
+        for z in space_syntax(adj)["zones"].values():
+            for k, v in z.items():
+                assert not (isinstance(v, float) and np.isinf(v)), k
+            assert z["integration_undefined"] == (z["rra"] == 0)
 
 
 def test_line_graph_and_intelligibility():
@@ -113,7 +125,7 @@ def test_line_graph_and_intelligibility():
 def test_syntax_on_the_flat(zm):
     s = space_syntax(permeable_graph(zm, WALLS, DOORS)["adjacency"])
     assert max(s["zones"], key=lambda k: s["zones"][k]["connectivity"]) == "Hallway"
-    assert s["zones"]["Hallway"]["integration"] == np.inf
+    assert s["zones"]["Hallway"]["integration_undefined"] and s["zones"]["Hallway"]["rra"] == 0
 
 
 # ---------------------------------------------------------------- position grain
